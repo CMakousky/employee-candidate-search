@@ -4,24 +4,18 @@ import type Candidate from '../interfaces/Candidate.interface';
 import CandidateCard from '../components/CandidateCard';
 
 const CandidateSearch = () => {
-  const [currentCandidate, setCurrentCandidate] = useState<Candidate>({
-    // name: '',
-    // username: '',
-    // location: '',
-    // avatar: '',
-    // email: '',
-    // html_url: '',
-    // company: '',
-  } as Candidate);
+  const [currentCandidate, setCurrentCandidate] = useState<Candidate>({} as Candidate);
 
-  const addToPotentialCandidates = () => {
-    let parsedPotentialCandidates: Candidate[] = [];
-    const storedPotentialCandidates = localStorage.getItem('potentialCandidates');
-    if (typeof storedPotentialCandidates === 'string') {
-      parsedPotentialCandidates = JSON.parse(storedPotentialCandidates);
+  const addToSavedCandidates = () => {
+    let parsedSavedCandidates: Candidate[] = [];
+    const savedCandidates = localStorage.getItem('savedCandidates');
+    if (typeof savedCandidates === 'string') {
+      parsedSavedCandidates = JSON.parse(savedCandidates);
     }
-    parsedPotentialCandidates.push(currentCandidate);
-    localStorage.setItem('potentialCandidates', JSON.stringify(parsedPotentialCandidates));
+    parsedSavedCandidates.push(currentCandidate);
+    localStorage.setItem('savedCandidates', JSON.stringify(parsedSavedCandidates));
+
+    nextCandidate();
   };
 
   const generateCandidates = async () => {
@@ -41,13 +35,19 @@ const CandidateSearch = () => {
     console.log(currentCandidate);
   };
 
-  let index:number;
-  const storedIndex = localStorage.getItem('storedIndex');
-  if (typeof storedIndex === 'string') {
-    index = JSON.parse(storedIndex) as number;
-  } else {index = 0};
+  // let index:number;
+  // const storedIndex = localStorage.getItem('storedIndex');
+  // if (typeof storedIndex === 'string') {
+  //   index = JSON.parse(storedIndex) as number;
+  // } else {index = 0};
 
-  const nextCandidate = async (index:number) => {
+  const nextCandidate = async () => {
+    let index:number;
+    const storedIndex = localStorage.getItem('storedIndex');
+    if (typeof storedIndex === 'string') {
+      index = JSON.parse(storedIndex) as number;
+    } else {index = 0};
+
     index++;
 
     let parsedPotentialCandidates: Candidate[] = [];
@@ -72,12 +72,13 @@ const CandidateSearch = () => {
   return (
     <>
       <button onClick={() => generateCandidates()}>Generate Candidates</button>
-      <button onClick={() => nextCandidate(index)}>Next Candidate</button>
+      <button onClick={() => nextCandidate()}>Next Candidate</button>
       <button onClick={() => clearLocalStorage()}>Clear Local Storage</button>
       <h1>CandidateSearch</h1>
       <CandidateCard
         currentCandidate={currentCandidate}
-        addToWatchList={addToPotentialCandidates}
+        addToWatchList={addToSavedCandidates}
+        rejectCandidate={nextCandidate}
       />
     </>
   );
