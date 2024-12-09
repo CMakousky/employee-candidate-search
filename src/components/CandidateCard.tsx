@@ -49,7 +49,7 @@ const CandidateCard = ({
                   removeFromStorage?.(
                     e,
                     onWatchList,
-                    currentCandidate.name
+                    currentCandidate.login
                   )
                 }
               />

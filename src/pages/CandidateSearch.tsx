@@ -8,6 +8,7 @@ const CandidateSearch = () => {
 
   const addToSavedCandidates = () => {
     let parsedSavedCandidates: Candidate[] = [];
+    
     const savedCandidates = localStorage.getItem('savedCandidates');
     if (typeof savedCandidates === 'string') {
       parsedSavedCandidates = JSON.parse(savedCandidates);
@@ -34,12 +35,6 @@ const CandidateSearch = () => {
     setCurrentCandidate(data1[0]);
     console.log(currentCandidate);
   };
-
-  // let index:number;
-  // const storedIndex = localStorage.getItem('storedIndex');
-  // if (typeof storedIndex === 'string') {
-  //   index = JSON.parse(storedIndex) as number;
-  // } else {index = 0};
 
   const nextCandidate = async () => {
     let index:number;
