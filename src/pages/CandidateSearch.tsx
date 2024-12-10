@@ -8,7 +8,7 @@ const CandidateSearch = () => {
 
   const addToSavedCandidates = () => {
     let parsedSavedCandidates: Candidate[] = [];
-    
+
     const savedCandidates = localStorage.getItem('savedCandidates');
     if (typeof savedCandidates === 'string') {
       parsedSavedCandidates = JSON.parse(savedCandidates);
@@ -64,11 +64,41 @@ const CandidateSearch = () => {
     console.log("Local Storage Cleared!");
   };
 
+  useEffect(() => {
+    // const parsedSavedCandidates = JSON.parse(
+    //   localStorage.getItem('savedCandidates') as string
+    // );
+    // setSavedCandidates(parsedSavedCandidates);
+
+    let index:number;
+    const storedIndex = localStorage.getItem('storedIndex');
+    if (typeof storedIndex === 'string') {
+      index = JSON.parse(storedIndex) as number;
+    } else {index = 0};
+
+    // index++;
+
+    let parsedPotentialCandidates: Candidate[] = [];
+
+    const storedPotentialCandidates = localStorage.getItem('potentialCandidates');
+    if (typeof storedPotentialCandidates === 'string') {
+      parsedPotentialCandidates = JSON.parse(storedPotentialCandidates);
+    }
+    if (parsedPotentialCandidates.length > 0) {setCurrentCandidate(parsedPotentialCandidates[index]);}
+    // setCurrentCandidate(parsedPotentialCandidates[index]);
+    console.log(currentCandidate);
+
+    localStorage.setItem('storedIndex', JSON.stringify(index));
+    console.log(index);
+  }, []);
+
   return (
     <>
-      <button onClick={() => generateCandidates()}>Generate Candidates</button>
-      <button onClick={() => nextCandidate()}>Next Candidate</button>
-      <button onClick={() => clearLocalStorage()}>Clear Local Storage</button>
+      <aside>
+        <button onClick={() => generateCandidates()}>Generate Candidates</button>
+        {/* <button onClick={() => nextCandidate()}>Next Candidate</button> */}
+        <button onClick={() => clearLocalStorage()}>Clear Local Storage</button>
+      </aside>
       <h1>CandidateSearch</h1>
       <CandidateCard
         currentCandidate={currentCandidate}

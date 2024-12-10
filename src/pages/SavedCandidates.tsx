@@ -4,7 +4,6 @@ import CandidatesToSave from '../components/CandidatesToSave';
 import type Candidate from '../interfaces/Candidate.interface';
 
 const SavedCandidates = () => {
-
   const [savedCandidates, setSavedCandidates] = useState<Candidate[]>([]);
 
   const removeFromStorage = (
@@ -26,20 +25,6 @@ const SavedCandidates = () => {
       setSavedCandidates(parsedSavedCandidates);
       localStorage.setItem('savedCandidates', JSON.stringify(parsedSavedCandidates));
     } 
-    //   else if (currentlyOnSeenItList) {
-    //   let parsedAlreadySeenFilms: Film[] = [];
-    //   const storedAlreadySeenFilms = localStorage.getItem('alreadySeenFilms');
-    //   if (typeof storedAlreadySeenFilms === 'string') {
-    //     parsedAlreadySeenFilms = JSON.parse(storedAlreadySeenFilms);
-    //   }
-    //   parsedAlreadySeenFilms = parsedAlreadySeenFilms.filter(
-    //     (film) => film.Title !== title
-    //   );
-    //   localStorage.setItem(
-    //     'alreadySeenFilms',
-    //     JSON.stringify(parsedAlreadySeenFilms)
-    //   );
-    // }
   };
 
     useEffect(() => {

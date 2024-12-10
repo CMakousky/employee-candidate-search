@@ -1,8 +1,7 @@
 import type React from 'react';
 import type Candidate from '../interfaces/Candidate.interface';
-import { ImCross } from 'react-icons/im';
-import { HiBan } from 'react-icons/hi';
-import { HiCheckCircle } from 'react-icons/hi';
+import { AiOutlinePlusCircle } from "react-icons/ai";
+import { AiOutlineMinusCircle } from "react-icons/ai";
 
 type CandidateCardProps = {
   currentCandidate: Candidate;
@@ -43,8 +42,8 @@ const CandidateCard = ({
 
           {onWatchList ? (
             <aside className='icons'>
-              <ImCross
-                style={{ fontSize: '40px', cursor: 'pointer' }}
+              <AiOutlineMinusCircle
+                style={{ fontSize: '100px', cursor: 'pointer' }}
                 onClick={(e: React.MouseEvent<SVGSVGElement, MouseEvent>) =>
                   removeFromStorage?.(
                     e,
@@ -56,12 +55,12 @@ const CandidateCard = ({
             </aside>
           ) : (
             <aside className='icons'>
-              <HiCheckCircle
-                style={{ fontSize: '50px', cursor: 'pointer' }}
+              <AiOutlinePlusCircle
+                style={{ fontSize: '100px', cursor: 'pointer' }}
                 onClick={() => addToWatchList?.()}
               />
-              <HiBan
-                style={{ fontSize: '50px', cursor: 'pointer' }}
+              <AiOutlineMinusCircle
+                style={{ fontSize: '100px', cursor: 'pointer' }}
                 onClick={() => rejectCandidate?.()}
               />
             </aside>
