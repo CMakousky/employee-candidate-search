@@ -43,7 +43,7 @@ const CandidateSearch = () => {
     const storedIndex = localStorage.getItem('storedIndex');
     if (typeof storedIndex === 'string') {
       index = JSON.parse(storedIndex) as number;
-    } else {index = 0};
+    } else {index = 0}
 
     index++;
 
@@ -73,7 +73,7 @@ const CandidateSearch = () => {
     const storedIndex = localStorage.getItem('storedIndex');
     if (typeof storedIndex === 'string') {
       index = JSON.parse(storedIndex) as number;
-    } else {index = 0};
+    } else {index = 0}
 
     const storedPotentialCandidates = localStorage.getItem('potentialCandidates');
     if (typeof storedPotentialCandidates === 'string') {
@@ -83,7 +83,7 @@ const CandidateSearch = () => {
       setCurrentCandidate(parsedPotentialCandidates[index]);
     } else {
       generateCandidates();
-    };
+    }
     console.log(currentCandidate);
 
     localStorage.setItem('storedIndex', JSON.stringify(index));
