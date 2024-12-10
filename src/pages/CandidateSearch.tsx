@@ -1,17 +1,18 @@
 // import { useState, useEffect, ButtonHTMLAttributes } from 'react';
-// import { searchGithub, searchGithubUser } from '../api/API';
-import { useState, useEffect } from 'react';
-import { searchGithub } from '../api/API';
+import { searchGithub, searchGithubUser } from '../api/API';
+import { useState, useEffect, FormEvent } from 'react';
+// import { searchGithub } from '../api/API';
 import type Candidate from '../interfaces/Candidate.interface';
 import CandidateCard from '../components/CandidateCard';
 
 const CandidateSearch = () => {
   const [currentCandidate, setCurrentCandidate] = useState<Candidate>({} as Candidate);
+  const [searchInput, setSearchInput] = useState<string>('');
 
   const addToSavedCandidates = () => {
     let parsedSavedCandidates: Candidate[] = [];
-
     const savedCandidates = localStorage.getItem('savedCandidates');
+
     if (typeof savedCandidates === 'string') {
       parsedSavedCandidates = JSON.parse(savedCandidates);
     }
@@ -23,81 +24,113 @@ const CandidateSearch = () => {
 
   const generateCandidates = async () => {
     const data1: Candidate[] = await searchGithub();
+    let parsedGithubData: Candidate[] = [];
 
-    let parsedPotentialCandidates: Candidate[] = [];
     data1.forEach((element) => {
-      const storedPotentialCandidates = localStorage.getItem('potentialCandidates');
-      if (typeof storedPotentialCandidates === 'string') {
-        parsedPotentialCandidates = JSON.parse(storedPotentialCandidates);
+      const storedGithubData = localStorage.getItem('githubData');
+      if (typeof storedGithubData === 'string') {
+        parsedGithubData = JSON.parse(storedGithubData);
       }
-      parsedPotentialCandidates.push(element);
-      localStorage.setItem('potentialCandidates', JSON.stringify(parsedPotentialCandidates));
+      parsedGithubData.push(element);
+      localStorage.setItem('githubData', JSON.stringify(parsedGithubData));
     });
 
     setCurrentCandidate(data1[0]);
     console.log(currentCandidate);
   };
 
+  const searchForCandidateByUserName = async (event: FormEvent, username: string) => {
+    event.preventDefault();
+    if (username.length === 0) {
+      let index:number=0;
+      let parsedGithubData: Candidate[] = [];
+  
+      const githubDataIndex = localStorage.getItem('githubDataIndex');
+      const storedGithubData = localStorage.getItem('githubData');
+
+      if (typeof githubDataIndex === 'string') {
+        index = JSON.parse(githubDataIndex) as number;
+      }
+      if (typeof storedGithubData === 'string') {
+        parsedGithubData = JSON.parse(storedGithubData);
+      }
+      if (parsedGithubData.length > 0) {
+        setCurrentCandidate(parsedGithubData[index]);
+      } else {
+        generateCandidates();
+      }
+    } else {
+    const data2: Candidate = await searchGithubUser(username);
+    setCurrentCandidate(data2)
+    };
+  };
+
   const nextCandidate = async () => {
-    let index:number;
-    const storedIndex = localStorage.getItem('storedIndex');
-    if (typeof storedIndex === 'string') {
-      index = JSON.parse(storedIndex) as number;
-    } else {index = 0}
+    let index:number=0;
+    let parsedGithubData: Candidate[] = [];
+    const githubDataIndex = localStorage.getItem('githubDataIndex');
+    const storedGithubData = localStorage.getItem('githubData');
 
-    index++;
-
-    let parsedPotentialCandidates: Candidate[] = [];
-
-    const storedPotentialCandidates = localStorage.getItem('potentialCandidates');
-    if (typeof storedPotentialCandidates === 'string') {
-      parsedPotentialCandidates = JSON.parse(storedPotentialCandidates);
+    if (typeof githubDataIndex === 'string') {
+      index = JSON.parse(githubDataIndex) as number;
     }
-
-    setCurrentCandidate(parsedPotentialCandidates[index]);
-    console.log(currentCandidate);
-
-    localStorage.setItem('storedIndex', JSON.stringify(index));
+    if (typeof storedGithubData === 'string') {
+      parsedGithubData = JSON.parse(storedGithubData);
+    }
+    if (parsedGithubData.length > 0) {
+      index++;
+      setCurrentCandidate(parsedGithubData[index]);
+      console.log(currentCandidate);
+    }
+    localStorage.setItem('githubDataIndex', JSON.stringify(index));
     console.log(index);
   };
 
-  // const clearLocalStorage = async () => {
-  //   localStorage.clear();
-  //   console.log("Local Storage Cleared!");
-  // };
-
   useEffect(() => {
-    let index:number;
-    let parsedPotentialCandidates: Candidate[] = [];
+    let index:number=0;
+    let parsedGithubData: Candidate[] = [];
 
-    const storedIndex = localStorage.getItem('storedIndex');
-    if (typeof storedIndex === 'string') {
-      index = JSON.parse(storedIndex) as number;
-    } else {index = 0}
+    const githubDataIndex = localStorage.getItem('githubDataIndex');
+    const storedGithubData = localStorage.getItem('githubData');
 
-    const storedPotentialCandidates = localStorage.getItem('potentialCandidates');
-    if (typeof storedPotentialCandidates === 'string') {
-      parsedPotentialCandidates = JSON.parse(storedPotentialCandidates);
+    if (typeof githubDataIndex === 'string') {
+      index = JSON.parse(githubDataIndex) as number;
     }
-    if (parsedPotentialCandidates.length > 0) {
-      setCurrentCandidate(parsedPotentialCandidates[index]);
-    } else {
-      generateCandidates();
+    if (typeof storedGithubData === 'string') {
+      parsedGithubData = JSON.parse(storedGithubData);
     }
-    console.log(currentCandidate);
-
-    localStorage.setItem('storedIndex', JSON.stringify(index));
-    console.log(index);
+    if (parsedGithubData.length > 0) {
+      setCurrentCandidate(parsedGithubData[index]);
+    }
+    localStorage.setItem('githubDataIndex', JSON.stringify(index));
+    // console.log(index);
+    setCurrentCandidate({} as Candidate);
+    // console.log(currentCandidate);
   }, []);
 
   return (
     <>
-      <aside>
-        {/* {<button onClick={() => generateCandidates()}>Generate Candidates</button>} */}
-        {/* <button onClick={() => nextCandidate()}>Next Candidate</button> */}
-        {/* {<button onClick={() => clearLocalStorage()}>Clear Local Storage</button>} */}
-      </aside>
-      <h1>CandidateSearch</h1>
+      <h1>Candidate Search</h1>
+
+      <section id='searchSection'>
+        <form
+          onSubmit={(event: FormEvent) =>
+            searchForCandidateByUserName(event, searchInput)
+          }
+        >
+          <input
+            type='text'
+            name=''
+            id=''
+            placeholder='Enter a Name'
+            onChange={(e) => setSearchInput(e.target.value)}
+          />
+          <button type='submit' id='searchBtn'>
+            Search
+          </button>
+        </form>
+      </section>
+
       <CandidateCard
         currentCandidate={currentCandidate}
         addToWatchList={addToSavedCandidates}

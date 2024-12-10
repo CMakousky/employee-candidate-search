@@ -36,7 +36,7 @@ const SavedCandidates = () => {
   
   return (
     <>
-      <h1 className='pageHeader'>Potential Candidates</h1>
+      <h1 className='pageHeader'>Saved Candidates</h1>
       {(!savedCandidates?.length || savedCandidates?.length === 0) ? (
         <h1 style={{ margin: '16px 0' }}>Add candidates to your hiring list.</h1>
       ) : (
