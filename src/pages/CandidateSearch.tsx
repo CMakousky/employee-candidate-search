@@ -65,27 +65,23 @@ const CandidateSearch = () => {
   };
 
   useEffect(() => {
-    // const parsedSavedCandidates = JSON.parse(
-    //   localStorage.getItem('savedCandidates') as string
-    // );
-    // setSavedCandidates(parsedSavedCandidates);
-
     let index:number;
+    let parsedPotentialCandidates: Candidate[] = [];
+
     const storedIndex = localStorage.getItem('storedIndex');
     if (typeof storedIndex === 'string') {
       index = JSON.parse(storedIndex) as number;
     } else {index = 0};
 
-    // index++;
-
-    let parsedPotentialCandidates: Candidate[] = [];
-
     const storedPotentialCandidates = localStorage.getItem('potentialCandidates');
     if (typeof storedPotentialCandidates === 'string') {
       parsedPotentialCandidates = JSON.parse(storedPotentialCandidates);
     }
-    if (parsedPotentialCandidates.length > 0) {setCurrentCandidate(parsedPotentialCandidates[index]);}
-    // setCurrentCandidate(parsedPotentialCandidates[index]);
+    if (parsedPotentialCandidates.length > 0) {
+      setCurrentCandidate(parsedPotentialCandidates[index]);
+    } else {
+      generateCandidates();
+    };
     console.log(currentCandidate);
 
     localStorage.setItem('storedIndex', JSON.stringify(index));
@@ -95,7 +91,7 @@ const CandidateSearch = () => {
   return (
     <>
       <aside>
-        <button onClick={() => generateCandidates()}>Generate Candidates</button>
+        {/* {<button onClick={() => generateCandidates()}>Generate Candidates</button>} */}
         {/* <button onClick={() => nextCandidate()}>Next Candidate</button> */}
         <button onClick={() => clearLocalStorage()}>Clear Local Storage</button>
       </aside>
