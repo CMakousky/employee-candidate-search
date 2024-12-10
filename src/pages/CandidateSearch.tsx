@@ -1,5 +1,7 @@
-import { useState, useEffect, ButtonHTMLAttributes } from 'react';
-import { searchGithub, searchGithubUser } from '../api/API';
+// import { useState, useEffect, ButtonHTMLAttributes } from 'react';
+// import { searchGithub, searchGithubUser } from '../api/API';
+import { useState, useEffect } from 'react';
+import { searchGithub } from '../api/API';
 import type Candidate from '../interfaces/Candidate.interface';
 import CandidateCard from '../components/CandidateCard';
 
