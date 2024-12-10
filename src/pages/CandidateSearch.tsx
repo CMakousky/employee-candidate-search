@@ -59,10 +59,10 @@ const CandidateSearch = () => {
     console.log(index);
   };
 
-  const clearLocalStorage = async () => {
-    localStorage.clear();
-    console.log("Local Storage Cleared!");
-  };
+  // const clearLocalStorage = async () => {
+  //   localStorage.clear();
+  //   console.log("Local Storage Cleared!");
+  // };
 
   useEffect(() => {
     let index:number;
@@ -93,7 +93,7 @@ const CandidateSearch = () => {
       <aside>
         {/* {<button onClick={() => generateCandidates()}>Generate Candidates</button>} */}
         {/* <button onClick={() => nextCandidate()}>Next Candidate</button> */}
-        <button onClick={() => clearLocalStorage()}>Clear Local Storage</button>
+        {/* {<button onClick={() => clearLocalStorage()}>Clear Local Storage</button>} */}
       </aside>
       <h1>CandidateSearch</h1>
       <CandidateCard
